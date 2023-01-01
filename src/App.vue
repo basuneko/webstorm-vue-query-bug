@@ -2,23 +2,17 @@
   <div>
     {{ isLoading }} <!-- incorrect -->
     {{ data }} <!-- incorrect -->
+    {{ bacon }} <!-- correctly inferred as `number` -->
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue';
+<script lang="ts" setup>
 import { useQuery } from '@tanstack/vue-query'
+import { ref } from 'vue';
 
-export default defineComponent({
-  setup() {
-    const { isLoading, data } = useQuery({
-      queryFn: () => Promise.resolve<number>(1)
-    })
-
-    return {
-      isLoading, // TS: Ref<false> | Ref<true>
-      data // TS: Ref<number> | Ref<undefined>
-    }
-  }
+const { isLoading, data } = useQuery({
+  queryFn: () => Promise.resolve<number>(1)
 })
+
+const bacon = ref<number>(1)
 </script>
