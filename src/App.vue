@@ -16,19 +16,51 @@
 import { useQuery } from '@tanstack/vue-query'
 import { ref } from 'vue';
 
+// ‼️ Remove vue-demi to see the errors
+
+interface QueryResponseType {
+  name: string;
+  age: number;
+  friends: Array<{
+    name: string;
+    age: number;
+  }>;
+}
+
 const query = useQuery({
   queryKey: ['key'],
-  queryFn: () => Promise.resolve<number>(1)
+  queryFn: () => Promise.resolve<QueryResponseType>({
+    name: 'name',
+    age: 1,
+    friends: [{
+      name: 'name',
+      age: 1
+    }]
+  })
 })
 
-const explicitlyTypedQuery = useQuery<number, unknown, number>({
+const explicitlyTypedQuery = useQuery<unknown, unknown, QueryResponseType>({
   queryKey: ['explicit key'],
-  queryFn: () => Promise.resolve<number>(1)
+  queryFn: () => Promise.resolve<QueryResponseType>({
+    name: 'name',
+    age: 1,
+    friends: [{
+      name: 'name',
+      age: 1
+    }]
+  })
 })
 
-const { isLoading, data } = useQuery({
+const { isLoading, data } = useQuery<unknown, unknown, QueryResponseType>({
   queryKey: ['destructured assignment'],
-  queryFn: () => Promise.resolve<number>(1)
+  queryFn: () => Promise.resolve<QueryResponseType>({
+    name: 'name',
+    age: 1,
+    friends: [{
+      name: 'name',
+      age: 1
+    }]
+  })
 })
 
 const bacon = ref<number>(1)
