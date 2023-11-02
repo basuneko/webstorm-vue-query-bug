@@ -1,10 +1,10 @@
 <template>
   <div>
-    {{ query.isLoading }} <!-- semi-correctly inferred as DistributiveOmit but `isLoading` is Unresolved -->
-    {{ query.data }} <!-- semi-correctly inferred as DistributiveOmit but `data` is unresolved -->
+    {{ query.isLoading }} <!-- `query` is unknown -->
+    {{ query.data }} <!-- `query` is `unknown`, data resolved to Blob -->
 
-    {{ explicitlyTypedQuery.isLoading }} <!-- semi-correctly inferred as DistributiveOmit but `isLoading` is Unresolved -->
-    {{ explicitlyTypedQuery.data }} <!-- semi-correctly inferred as DistributiveOmit but `data` is unresolved -->
+    {{ explicitlyTypedQuery.isLoading }} <!-- `query is `unknown`, `isLoading` is unresolved -->
+    {{ explicitlyTypedQuery.data }} <!-- `query` is `unknown`, data resolved to Blob -->
 
     {{ isLoading }} <!-- incorrectly inferred as `any` -->
     {{ data }} <!-- incorrectly inferred as `any` -->
@@ -16,7 +16,7 @@
 import { useQuery } from '@tanstack/vue-query'
 import { ref } from 'vue';
 
-// ‼️ Remove vue-demi to see the errors
+// ‼️ See branch vue-query-4 for comparison.
 
 interface QueryResponseType {
   name: string;
